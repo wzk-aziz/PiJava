@@ -101,6 +101,8 @@ public class EvenementsController implements Initializable {
     private Button btninscription;
     @FXML
     private Button btnInscri;
+    @FXML
+    private ImageView ImageView;
 
     /**
      * Initializes the controller class.
@@ -333,8 +335,14 @@ private void addevn(ActionEvent event) {
         if (evenements != null) {
             tftitre.setText(evenements.getTitre());
             tfdescription.setText(evenements.getDescription());
-            tfdate.setValue(LocalDate.parse(evenements.getDate()));
-            tfphoto.setText(evenements.getPhoto());
+            
+            
+        ///////lel image
+        String path = evenements.getPhoto();
+               File file=new File(path);
+              Image img = new Image(file.toURI().toString());
+                ImageView.setImage(img);
+        ////
 
 
         } else {

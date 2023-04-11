@@ -66,6 +66,7 @@
             <TextField fx:id="tftitre" layoutX="85.0" layoutY="89.0" prefHeight="33.0" prefWidth="226.0" promptText="veuillez entrer une email valide" style="-fx-border-color: #131314;" />
             <TextArea fx:id="tfdescription" layoutX="21.0" layoutY="163.0" prefHeight="111.0" prefWidth="292.0" />
             <Button fx:id="btnchoisir" layoutX="249.0" layoutY="345.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="74.0" text="choisir" />
+            <ImageView fx:id="ImageView" fitHeight="150.0" fitWidth="200.0" layoutX="137.0" layoutY="447.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
       <VBox layoutX="1025.0" layoutY="59.0" prefHeight="608.0" prefWidth="214.0" style="-fx-background-color: #000000; -fx-border-color: #131314;">
