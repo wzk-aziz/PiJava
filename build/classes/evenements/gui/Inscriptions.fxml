@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="726.0" prefWidth="1267.0" style="-fx-background-color: #7cb8d6;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="evenements.gui.InscriptionsController">
+   <children>
+      <Pane layoutX="20.0" layoutY="67.0" prefHeight="608.0" prefWidth="1233.0" style="-fx-background-color: #dbeaf1; -fx-border-color: #131314;">
+         <children>
+            <TextField fx:id="tfidev" layoutX="116.0" layoutY="172.0" prefHeight="31.0" prefWidth="159.0" />
+            <Label layoutX="27.0" layoutY="124.0" text="Date">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="28.0" layoutY="29.0" prefHeight="37.0" prefWidth="292.0" text="S'inscrire" textFill="#196086">
+               <font>
+                  <Font name="Corbel Bold Italic" size="28.0" />
+               </font>
+            </Label>
+            <Label layoutX="28.0" layoutY="79.0" prefHeight="27.0" prefWidth="182.0" text="Titre de l'evenement">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="btninscription" layoutX="26.0" layoutY="463.0" mnemonicParsing="false" onAction="#inscription" prefHeight="44.0" prefWidth="105.0" style="-fx-border-color: #000000; -fx-background-color: #000000;" text="Ajouter" textFill="WHITE">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Button>
+            <Label fx:id="message" layoutX="263.0" layoutY="116.0" prefHeight="44.0" prefWidth="159.0">
+               <font>
+                  <Font name="System Bold Italic" size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="26.0" layoutY="174.0" text="Utilisateur">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="27.0" layoutY="209.0" text="Description">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextArea fx:id="tfdescriptionev" layoutX="19.0" layoutY="236.0" prefHeight="200.0" prefWidth="330.0" />
+            <TextField fx:id="tfnomev" editable="false" layoutX="204.0" layoutY="77.0" />
+            <DatePicker fx:id="tfdateev" layoutX="87.0" layoutY="122.0" />
+            <TextField fx:id="tfid" layoutX="116.0" layoutY="172.0" prefHeight="31.0" prefWidth="159.0" />
+         </children>
+      </Pane>
+      <Button layoutX="1130.0" layoutY="14.0" mnemonicParsing="false" style="-fx-border-color: #ffffff; -fx-background-color: #ffffff;" text="Déconnexion">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Button>
+      <Button fx:id="retour" layoutX="29.0" layoutY="14.0" mnemonicParsing="false" onAction="#retour" prefHeight="46.0" prefWidth="90.0" style="-fx-border-color: #000000; -fx-background-color: #000000;" text="retour" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

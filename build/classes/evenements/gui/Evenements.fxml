@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="726.0" prefWidth="1267.0" style="-fx-background-color: #7cb8d6;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="evenements.gui.EvenementsController">
+   <children>
+      <Pane layoutX="20.0" layoutY="59.0" prefHeight="608.0" prefWidth="965.0" style="-fx-background-color: #dbeaf1; -fx-border-color: #131314;">
+         <children>
+            <Label layoutX="27.0" layoutY="124.0" text="Description:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="28.0" layoutY="29.0" prefHeight="37.0" prefWidth="292.0" text="Ajout d'un evenement" textFill="#196086">
+               <font>
+                  <Font name="Corbel Bold Italic" size="28.0" />
+               </font>
+            </Label>
+            <DatePicker fx:id="tfdate" layoutX="87.0" layoutY="286.0" prefHeight="33.0" prefWidth="226.0" style="-fx-background-color: #ffffff; -fx-border-color: #131314;" />
+            <Button fx:id="btnenvoyer" layoutX="27.0" layoutY="416.0" mnemonicParsing="false" onAction="#addevn" prefHeight="33.0" prefWidth="103.0" style="-fx-border-color: #131314; -fx-background-color: #000000;" text="Envoyer" textFill="WHITE" />
+            <TableView fx:id="tableEvenements" layoutX="341.0" layoutY="124.0" onMouseClicked="#afficherEvenementsSelected" prefHeight="416.0" prefWidth="609.0" style="-fx-background-color: #ffff; -fx-border-color: #131314;">
+          <columns>
+              <TableColumn fx:id="colId" prefWidth="50" text="ID" />
+              <TableColumn fx:id="colTitre" prefWidth="100.0" text="Titre" />
+              <TableColumn fx:id="colDescription" prefWidth="168.0" text="Description" />
+              <TableColumn fx:id="colDate" prefWidth="158.0" text="Date" />
+                  <TableColumn fx:id="colPhoto" prefWidth="131.0" text="Photo" />
+          </columns>
+      </TableView>
+            <Button fx:id="btnmodifier" layoutX="443.0" layoutY="79.0" mnemonicParsing="false" onAction="#editeven" prefHeight="27.0" prefWidth="91.0" style="-fx-border-color: #131314; -fx-background-color: #000000;" text="Modifier" textFill="WHITE" />
+            <Button fx:id="btnsupprimer" layoutX="546.0" layoutY="78.0" mnemonicParsing="false" onAction="#deleteeven" prefHeight="31.0" prefWidth="103.0" style="-fx-border-color: #131314; -fx-background-color: #000000;" text="Supprimer" textFill="WHITE" />
+            <Label layoutX="447.0" layoutY="29.0" text="Les anciens evenements" textFill="#196086">
+               <font>
+                  <Font name="Corbel Bold Italic" size="28.0" />
+               </font>
+            </Label>
+            <Label layoutX="28.0" layoutY="92.0" prefHeight="27.0" prefWidth="47.0" text="Titre">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="32.0" layoutY="286.0" text="Date:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="btninscription" layoutX="665.0" layoutY="78.0" mnemonicParsing="false" onAction="#inscription" prefHeight="33.0" prefWidth="84.0" style="-fx-border-color: #131314; -fx-background-color: #000000;" text="S'inscrire" textFill="WHITE" />
+            <Label layoutX="29.0" layoutY="349.0" text="Photo">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="tfphoto" layoutX="84.0" layoutY="346.0" prefHeight="33.0" prefWidth="162.0" style="-fx-border-color: #131314;" />
+            <TextField fx:id="tftitre" layoutX="85.0" layoutY="89.0" prefHeight="33.0" prefWidth="226.0" promptText="veuillez entrer une email valide" style="-fx-border-color: #131314;" />
+            <TextArea fx:id="tfdescription" layoutX="21.0" layoutY="163.0" prefHeight="111.0" prefWidth="292.0" />
+            <Button fx:id="btnchoisir" layoutX="249.0" layoutY="345.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="74.0" text="choisir" />
+         </children>
+      </Pane>
+      <VBox layoutX="1025.0" layoutY="59.0" prefHeight="608.0" prefWidth="214.0" style="-fx-background-color: #000000; -fx-border-color: #131314;">
+         <children>
+            <Button fx:id="btnreclamation" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#gererEvenements" prefHeight="32.0" prefWidth="294.0" style="-fx-border-color: #131314;" text="Evenements" textFill="#003149">
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnInscri" alignment="TOP_LEFT" mnemonicParsing="false" onAction="#gererinscription" opacity="0.6" prefHeight="32.0" prefWidth="290.0" style="-fx-border-color: #131314;" text="Inscriptions" textFill="#003149">
+               <font>
+                  <Font name="System Bold" size="26.0" />
+               </font>
+            </Button>
+            <ImageView fx:id="image1" fitHeight="183.0" fitWidth="215.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </VBox>
+      <Button layoutX="1132.0" layoutY="14.0" mnemonicParsing="false" style="-fx-border-color: #ffffff; -fx-background-color: #ffffff;" text="Déconnexion">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </Button>
+      <Button fx:id="btnretour" layoutY="-3.0" mnemonicParsing="false" onAction="#retour" prefHeight="34.0" prefWidth="40.0" style="-fx-border-color: #ffffff; -fx-background-color: #ffffff;" text="&lt;-">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
