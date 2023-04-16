@@ -8,8 +8,31 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="583.0" prefWidth="972.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.MedicamentsController">
+<AnchorPane id="AnchorPane" prefHeight="583.0" prefWidth="972.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.MedicamentsController">
    <children>
+      <Button fx:id="btnupdate" layoutX="839.0" layoutY="155.0" mnemonicParsing="false" onAction="#updatemed" prefHeight="27.0" prefWidth="103.0" style="-fx-border-color: #131314; -fx-background-color: #000000;" text="Modifier" textFill="WHITE" />
+      <Button fx:id="btndelete" layoutX="839.0" layoutY="330.0" mnemonicParsing="false" onAction="#deletmed" prefHeight="31.0" prefWidth="103.0" style="-fx-border-color: #131314; -fx-background-color: #000000;" text="Supprimer" textFill="WHITE" />
+      <Button fx:id="btnajoutermedicaments" layoutX="27.0" layoutY="419.0" mnemonicParsing="false" onAction="#addmed" prefHeight="27.0" prefWidth="258.0" style="-fx-border-color: #131314; -fx-background-color: #000000;" text="Ajouter" textFill="WHITE" />
+      <Button fx:id="btnrappel" alignment="TOP_LEFT" layoutX="587.0" layoutY="465.0" mnemonicParsing="false" onAction="#gererappel" opacity="0.6" prefHeight="32.0" prefWidth="290.0" style="-fx-border-color: #131314;" text="Rappel" textFill="#003149">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+      </Button>
+      <Label layoutX="29.0" layoutY="326.0" text="ID du rappel">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="29.0" layoutY="248.0" text="Heure de prise">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="35.0" layoutY="95.0" prefHeight="27.0" prefWidth="210.0" text="Nom du médicaments">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
       <Label layoutX="27.0" layoutY="169.0" text="Dosage">
          <font>
             <Font size="14.0" />
@@ -20,7 +43,11 @@
             <Font name="Corbel Bold Italic" size="28.0" />
          </font>
       </Label>
-      <TableView fx:id="tableMedicaments" layoutX="287.0" layoutY="113.0" onMouseClicked="#afficherMedSelected" prefHeight="290.0" prefWidth="542.0" style="-fx-background-color: #ffff; -fx-border-color: #131314;">
+      <TextField fx:id="nommed" layoutX="32.0" layoutY="130.0" prefHeight="26.0" prefWidth="233.0" />
+      <TextField fx:id="heuremed" layoutX="32.0" layoutY="278.0" prefHeight="26.0" prefWidth="233.0" />
+      <TextField fx:id="dosagemed" layoutX="32.0" layoutY="205.0" prefHeight="26.0" prefWidth="233.0" />
+      <TextField fx:id="idrappel" layoutX="32.0" layoutY="361.0" prefHeight="26.0" prefWidth="233.0" />
+      <TableView fx:id="tableMedicaments" layoutX="296.0" layoutY="113.0" prefHeight="290.0" prefWidth="542.0" style="-fx-background-color: #ffff; -fx-border-color: #131314;">
          <columns>
             <TableColumn fx:id="colId" prefWidth="50" text="ID" />
             <TableColumn fx:id="colNom" prefWidth="129.5999755859375" text="Nom " />
@@ -28,32 +55,5 @@
             <TableColumn fx:id="colHeurePrise" prefWidth="186.40008544921875" text="Heure de prise" />
          </columns>
       </TableView>
-      <Button fx:id="btnupdate" layoutX="839.0" layoutY="155.0" mnemonicParsing="false" onAction="#updatemed" prefHeight="27.0" prefWidth="103.0" style="-fx-border-color: #131314; -fx-background-color: #000000;" text="Modifier" textFill="WHITE" />
-      <Button fx:id="btndelete" layoutX="839.0" layoutY="330.0" mnemonicParsing="false" onAction="#deletmed" prefHeight="31.0" prefWidth="103.0" style="-fx-border-color: #131314; -fx-background-color: #000000;" text="Supprimer" textFill="WHITE" />
-      <Label layoutX="35.0" layoutY="95.0" prefHeight="27.0" prefWidth="210.0" text="Nom du médicaments">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <TextField fx:id="nommed" layoutX="27.0" layoutY="122.0" prefHeight="34.0" prefWidth="234.0" promptText="veuillez entrer le nom du médicaments" style="-fx-border-color: #131314;" />
-      <TextField fx:id="dosagemed" layoutX="27.0" layoutY="196.0" prefHeight="34.0" prefWidth="234.0" promptText="veuillez entrer le dosage du médicament" style="-fx-border-color: #131314;" />
-      <Button fx:id="btnajoutermedicaments" layoutX="27.0" layoutY="419.0" mnemonicParsing="false" onAction="#addmed" prefHeight="27.0" prefWidth="258.0" style="-fx-border-color: #131314; -fx-background-color: #000000;" text="Ajouter" textFill="WHITE" />
-      <Button fx:id="btnmed" alignment="TOP_LEFT" layoutX="587.0" layoutY="465.0" mnemonicParsing="false" onAction="#gerermedicaments" opacity="0.6" prefHeight="32.0" prefWidth="290.0" style="-fx-border-color: #131314;" text="Rappel" textFill="#003149">
-         <font>
-            <Font name="System Bold" size="26.0" />
-         </font>
-      </Button>
-      <Label layoutX="29.0" layoutY="326.0" text="ID du rappel">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <TextField fx:id="heuremed" layoutX="27.0" layoutY="274.0" prefHeight="34.0" prefWidth="234.0" promptText="veuillez préciser l'heure de prise" style="-fx-border-color: #131314;" />
-      <TextField fx:id="idrappel" layoutX="27.0" layoutY="349.0" prefHeight="34.0" prefWidth="234.0" promptText="veuillez préciser l'heure de prise" style="-fx-border-color: #131314;" />
-      <Label layoutX="29.0" layoutY="248.0" text="Heure de prise">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
    </children>
 </AnchorPane>

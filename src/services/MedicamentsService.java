@@ -99,6 +99,27 @@ public class MedicamentsService {
         return false;
     }
 }
+public List<Medicaments> searchByName(String nommed) {
+    List<Medicaments> medications = new ArrayList<>();
+    try {
+        String qry = "SELECT * FROM medicaments WHERE nommed LIKE ?";
+        PreparedStatement pstmt = cnx.prepareStatement(qry);
+        pstmt.setString(1, "%" + nommed + "%");
+        ResultSet rs = pstmt.executeQuery();
+        while (rs.next()) {
+            Medicaments m = new Medicaments();
+            m.setId(rs.getInt("id"));
+            m.setRappel_id(rs.getInt("rappel_id"));
+            m.setNommed(rs.getString("nommed"));
+            m.setDosage(rs.getString("dosage"));
+            m.setHeurePrise(rs.getString("heureprise"));
+            medications.add(m);
+        }
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
+    }
+    return medications;
+}
 
     
 }

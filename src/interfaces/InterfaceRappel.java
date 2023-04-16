@@ -14,7 +14,7 @@ public interface InterfaceRappel {
     
     void ajouterRappel(Rappel ra);
 
-    List<Rappel> afficherRappel();
+   public List<Rappel> afficherRappel();
 
     void supprimerRappel(int id);
 
