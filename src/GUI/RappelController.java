@@ -90,6 +90,10 @@ public class RappelController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("Veuillez sélectionner un rappel à mettre à jour!");
             alert.showAndWait();
+            
+            // Set the values of the input fields to the selected medication's information
+    messagerappel.setText(r.getMessage());
+ ;
         } else {
             r.setNomrappel(nomrappel.getText());
             r.setMessage(messagerappel.getText());

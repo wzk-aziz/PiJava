@@ -4,7 +4,11 @@
  * and open the template in the editor.
  */
 package services;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import util.MyConnection;
 import java.sql.PreparedStatement;
@@ -14,7 +18,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import models.Medicaments;
-import models.Rappel;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 /**
  *
@@ -119,6 +125,46 @@ public List<Medicaments> searchByName(String nommed) {
         System.out.println(ex.getMessage());
     }
     return medications;
+}
+public void generateExcel() {
+    List<Medicaments> medicamentsList = AfficherMedicaments();
+    XSSFWorkbook workbook = new XSSFWorkbook();
+    XSSFSheet sheet = workbook.createSheet("Medicaments Data");
+    XSSFRow headerRow = sheet.createRow(0);
+
+    // Add column names to the header row
+    XSSFCell cell = headerRow.createCell(0);
+    cell.setCellValue("ID");
+    cell = headerRow.createCell(1);
+    cell.setCellValue("Rappel ID");
+    cell = headerRow.createCell(2);
+    cell.setCellValue("Nommed");
+    cell = headerRow.createCell(3);
+    cell.setCellValue("Dosage");
+    cell = headerRow.createCell(4);
+    cell.setCellValue("Heureprise");
+
+    // Add medicaments data to the rows
+    int rowNum = 1;
+    for (Medicaments medicament : medicamentsList) {
+        XSSFRow row = sheet.createRow(rowNum++);
+        row.createCell(0).setCellValue(medicament.getId());
+        row.createCell(1).setCellValue(medicament.getRappel_id());
+        row.createCell(2).setCellValue(medicament.getNommed());
+        row.createCell(3).setCellValue(medicament.getDosage());
+        row.createCell(4).setCellValue(medicament.getHeurePrise());
+    }
+
+    try {
+        // Write the workbook to an output stream
+        FileOutputStream outputStream = new FileOutputStream("medicaments.xlsx");
+        workbook.write(outputStream);
+        workbook.close();
+        outputStream.close();
+        System.out.println("Medicaments data written to Excel file successfully.");
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
 }
 
     
