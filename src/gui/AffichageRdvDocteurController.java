@@ -5,10 +5,12 @@
  */
 package gui;
 
-import entites.Ordonnance;
+import com.itextpdf.text.DocumentException;
 import entites.RDV;
 import static gui.AffichageRdvController.rdv;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.Time;
 import java.util.Date;
@@ -37,6 +39,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import services.ServiceRdv;
+import utils.PDFRDV;
 
 /**
  * FXML Controller class
@@ -72,6 +75,8 @@ public class AffichageRdvDocteurController implements Initializable {
     private Button tri;
     @FXML
     private TextField recherche;
+    @FXML
+    private Button PDF;
     /**
      * Initializes the controller class.
      */
@@ -314,6 +319,23 @@ public class AffichageRdvDocteurController implements Initializable {
         sortedData.comparatorProperty().bind(tableView.comparatorProperty());
 
         tableView.setItems(sortedData);
+    }
+
+    @FXML
+    private void pdfAction(ActionEvent event) {
+           try {
+            PDFRDV pdf = new PDFRDV();
+            pdf.pdfGeneration();
+            System.out.println("ouvrez votre dossier vous trouveriez la liste des rendez vous ");
+        } catch (DocumentException ex) {
+            System.out.println(ex.getMessage());
+        } catch (MalformedURLException ex) {
+            System.out.println(ex.getMessage());
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        } catch (URISyntaxException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
     }    
     
