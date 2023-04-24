@@ -155,8 +155,9 @@ public class ServiceRdv implements IService<RDV> {
                 Time endtime = rs.getTime("endtime");
                 String titre = rs.getString("titre");
                String etat = rs.getString("etat");
+               int idPatient= rs.getInt("id_patient_id");
                 
-                RDV p = new RDV(id,date_rdv,starttime,endtime,titre,etat);
+                RDV p = new RDV(id,date_rdv,starttime,endtime,titre,etat,idPatient);
               
                obListR.add(p);
 
@@ -190,6 +191,60 @@ public class ServiceRdv implements IService<RDV> {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
+    }
+
+    @Override
+    public RDV getRdvbyid(int idrdv) {
+       String req= "SELECT * FROM rdv WHERE id =?";
+
+        RDV r = new RDV();
+        try{
+            //Statement statement = conn.createStatement();
+            //ResultSet rs = statement.executeQuery(req);
+                  PreparedStatement statement = conn.prepareStatement(req);
+        statement.setInt(1, idrdv);
+        ResultSet rs = statement.executeQuery();
+
+            while(rs.next()) {
+                int id= rs.getInt("id");
+                Date date_rdv = rs.getDate("date_rdv");
+                Time starttime = rs.getTime("starttime");
+                Time endtime = rs.getTime("endtime");
+                String titre = rs.getString("titre");
+               String etat = rs.getString("etat");
+               int idPatient= rs.getInt("id_patient_id");
+                  r = new RDV(id,date_rdv,starttime,endtime,titre,etat,idPatient);
+              
+                System.out.println(r);
+             
+
+              
+            }   
+            
+            
+            
+        }catch(Exception ex) {
+            System.out.println("exception ="+ex.getMessage() );
+        }
+        
+        return r;
+    }
+
+    @Override
+    public RDV getUserbyNom(String titre) {
+        String req = "SELECT * FROM rdv WHERE titre = ?";
+    RDV rdv = null;
+    try {
+        PreparedStatement ps = conn.prepareStatement(req);
+        ps.setString(1, titre);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            rdv = new RDV(rs.getInt("id"), rs.getString("titre"));
+        }
+    } catch (SQLException ex) {
+        System.out.println("Erreur lors de la récupération de la liste : " + ex.getMessage());
+    }
+    return rdv;
     }
 
     

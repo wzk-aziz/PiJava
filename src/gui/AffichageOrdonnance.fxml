@@ -22,8 +22,9 @@
             <TableColumn fx:id="ColId" prefWidth="33.33331298828125" text="ID" />
         </columns>
       </TableView>
-      <Button layoutX="520.0" layoutY="25.0" mnemonicParsing="false" onAction="#AddOrd" style="-fx-background-color: #3a8eba;" text="Ajouter " textFill="WHITE" />
+      <Button layoutX="458.0" layoutY="11.0" mnemonicParsing="false" onAction="#AddOrd" style="-fx-background-color: #3a8eba;" text="Ajouter " textFill="WHITE" />
       <Text fill="#228032" layoutX="14.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Docteur" />
-      <TextField fx:id="recherche" layoutX="300.0" layoutY="25.0" onKeyPressed="#RechercheHandle" prefHeight="25.0" prefWidth="188.0" promptText="Recherche" />
+      <TextField fx:id="recherche" layoutX="255.0" layoutY="38.0" onKeyPressed="#RechercheHandle" prefHeight="25.0" prefWidth="188.0" promptText="Recherche" />
+      <Button fx:id="btnRetour" layoutX="528.0" layoutY="11.0" mnemonicParsing="false" onAction="#retourAction" style="-fx-background-color: #3a8eba;" text="Retour" textFill="WHITE" />
    </children>
 </AnchorPane>

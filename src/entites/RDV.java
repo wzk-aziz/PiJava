@@ -22,6 +22,12 @@ public class RDV {
     public RDV(){
     }
 
+    public RDV(int id, String titre) {
+        this.id = id;
+        this.titre = titre;
+    }
+    
+
     public RDV(int id, Date date_rdv, Time starttime, Time endtime, String titre, String etat, int id_patient_id) {
         this.id = id;
         this.date_rdv = date_rdv;

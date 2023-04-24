@@ -39,6 +39,7 @@ import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 import services.ServiceUser;
 import entites.User ;
+import java.time.Duration;
 import utils.SendMail;
 
 
@@ -137,9 +138,20 @@ comboMedecin.setItems(medecinList);
         showAlert("État obligatoire", "L'état doit être non vide");
     } else if (dateRdv == null || dateRdv.isBefore(LocalDate.now())) {
         showAlert("Date invalide", "Veuillez saisir une date valide ");
-    } else if (heureDebut == null || heureFin == null || heureDebut.isBefore(LocalTime.of(8, 0)) || heureFin.isAfter(LocalTime.of(17, 0)) || heureFin.isBefore(heureDebut)) {
-        showAlert("Heures invalides", "Veuillez saisir des heures valides entre 8heure et 17 heure ");
-    } else {
+    }  else if (heureDebut == null || heureDebut.isBefore(LocalTime.of(9, 0)) || heureDebut.isAfter(LocalTime.of(16, 0))  ) {
+        showAlert("Heures invalides", "heure de debut entre 9h du matin et 16:30 du soir");
+     
+    } else if (heureFin == null || heureFin.isBefore(LocalTime.of(9, 0)) || heureFin.isAfter(LocalTime.of(17, 0))  ) {
+        showAlert("Heures invalides", "heure de fin entre 9:30h du matin et 17 du soir");
+     
+    } else if (heureDebut == null || heureFin == null ||  Duration.between(heureDebut, heureFin).toMinutes() < 30) {
+        showAlert("Heures invalides", "la consultation est de 30 minutes ");
+        
+    } 
+    else if (heureDebut == null || heureFin == null ||  Duration.between(heureDebut, heureFin).toMinutes() > 30) {
+        showAlert("Heures invalides", "la consultation est de 30 minutes ");  
+    } 
+       else {
         ZoneId defaultZoneId = ZoneId.systemDefault();
         Date date = Date.from(dateRdv.atStartOfDay(defaultZoneId).toInstant());
         Time timeDebut = Time.valueOf(heureDebut);

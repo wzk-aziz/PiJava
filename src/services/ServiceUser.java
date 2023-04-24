@@ -104,36 +104,36 @@ public class ServiceUser {
         return obListU ;
     }
       
-   public User getUserDocteur(String nom) {
-    String req = "SELECT nom FROM utilisateur WHERE role = 2";
-    User user = null;
-    try {
-        PreparedStatement ps = conn.prepareStatement(req);
-        ps.setString(1, nom);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            user = new User(rs.getInt("id"), rs.getString("nom"));
-        }
-    } catch (SQLException ex) {
-        System.out.println("Erreur lors de la récupération du nom de medecin : " + ex.getMessage());
-    }
-    return user;
-}
-    public User getUserPateint(String nom) {
-    String req = "SELECT nom FROM utilisateur WHERE role = 1";
-    User user = null;
-    try {
-        PreparedStatement ps = conn.prepareStatement(req);
-        ps.setString(1, nom);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            user = new User(rs.getInt("id"), rs.getString("nom"));
-        }
-    } catch (SQLException ex) {
-        System.out.println("Erreur lors de la récupération du nom de medecin : " + ex.getMessage());
-    }
-    return user;
-}
+//   public User getUserDocteur(String nom) {
+//    String req = "SELECT nom FROM utilisateur WHERE role = 2";
+//    User user = null;
+//    try {
+//        PreparedStatement ps = conn.prepareStatement(req);
+//        ps.setString(1, nom);
+//        ResultSet rs = ps.executeQuery();
+//        if (rs.next()) {
+//            user = new User(rs.getInt("id"), rs.getString("nom"));
+//        }
+//    } catch (SQLException ex) {
+//        System.out.println("Erreur lors de la récupération du nom de medecin : " + ex.getMessage());
+//    }
+//    return user;
+//}
+//    public User getUserPateint(String nom) {
+//    String req = "SELECT nom FROM utilisateur WHERE role = 1";
+//    User user = null;
+//    try {
+//        PreparedStatement ps = conn.prepareStatement(req);
+//        ps.setString(1, nom);
+//        ResultSet rs = ps.executeQuery();
+//        if (rs.next()) {
+//            user = new User(rs.getInt("id"), rs.getString("nom"));
+//        }
+//    } catch (SQLException ex) {
+//        System.out.println("Erreur lors de la récupération du nom de medecin : " + ex.getMessage());
+//    }
+//    return user;
+//}
     public User getUserbyNom(String nom) {
     String req = "SELECT * FROM utilisateur WHERE nom = ?";
     User user = null;

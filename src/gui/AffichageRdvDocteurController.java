@@ -283,6 +283,7 @@ public class AffichageRdvDocteurController implements Initializable {
         ColDate.setCellValueFactory(new PropertyValueFactory<>("date_rdv"));
          ColStart.setCellValueFactory(new PropertyValueFactory<>("starttime"));
            ColEnd.setCellValueFactory(new PropertyValueFactory<>("endtime"));
+           ColIDPatient.setCellValueFactory(new PropertyValueFactory<>("id_patient_id"));
                 
 
 //        addButtonModifToTable();

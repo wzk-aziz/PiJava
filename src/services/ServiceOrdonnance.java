@@ -32,16 +32,24 @@ ObservableList<Ordonnance>obListO = FXCollections.observableArrayList();
     }
     @Override
     public void ajouterOrd(Ordonnance O) {
-        String  req ="INSERT INTO ordonnance (contenue, dateord )values(?,?)";
+        String  req ="INSERT INTO ordonnance (contenue, dateord,idrdv_id )values(?,?,?)";
 
        PreparedStatement stm;
         try {
             stm = conn.prepareStatement(req);
                stm.setString(1, O.getContenue());
-                     stm.setDate(2,(Date) new java.sql.Date(O.getDateord().getTime()));
-                   
+                stm.setDate(2,(Date) new java.sql.Date(O.getDateord().getTime()));
+               stm.setInt(3, O.getIdrdv_id());
+               
+               
+               
+               
+               
+               
+               
+               
             stm.executeUpdate();
-                    System.out.println("ordonnance ajoutée");
+                    System.out.println("ordonnance  ajoutée");
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -64,9 +72,10 @@ ObservableList<Ordonnance>obListO = FXCollections.observableArrayList();
                 
                 java.util.Date dateord= rs.getDate("dateord");
        String contenue = rs.getString("contenue");
+         int idrdv= rs.getInt("idrdv_id");
               
                 
-                Ordonnance c = new Ordonnance(id,contenue , dateord);
+                Ordonnance c = new Ordonnance(id,contenue , dateord,idrdv);
               
                obListO.add(c);
 
@@ -105,19 +114,16 @@ ObservableList<Ordonnance>obListO = FXCollections.observableArrayList();
         String req ="UPDATE ordonnance SET contenue=? WHERE id=?" ;
       
         
-       PreparedStatement stm;
+        PreparedStatement stm;
         try {
-            System.out.println(O);
             stm = conn.prepareStatement(req);
-               
-                  
+                
                     stm.setString(1, O.getContenue());
-    
         stm.setInt(2, O.getId());
 
         
             stm.executeUpdate();
-                    System.out.println("Ordonnance modifié avec succés");
+                    System.out.println("rendez vous modifié avec succés");
 
         } catch (SQLException ex) {
             ex.printStackTrace();

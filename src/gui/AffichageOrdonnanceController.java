@@ -64,6 +64,8 @@ public class AffichageOrdonnanceController implements Initializable {
     private TableColumn<String, Integer> ColId;
     @FXML
     private TextField recherche;
+    @FXML
+    private Button btnRetour;
 
     /**
      * Initializes the controller class.
@@ -284,6 +286,20 @@ public class AffichageOrdonnanceController implements Initializable {
         addButtonDeleteToTable();
         
 
+    }
+
+    @FXML
+    private void retourAction(ActionEvent event) {
+        try {
+                  Parent   root = FXMLLoader.load(getClass().getResource("AffichageRdvAdmin.fxml"));
+                    Scene scene = new Scene(root);
+                    Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+                    stage.setScene(scene);
+                    stage.show();
+                } catch (IOException ex) {
+                    System.out.println(ex.getMessage());
+                };
     }
 
   

@@ -21,5 +21,7 @@ public interface IService <T> {
     public void modifierRdv(RDV R);
      public List<RDV>affichageRdvTrieer ();
    public void   acceptRejectRdv(RDV R,String acceptReject);
+   public RDV getRdvbyid(int idrdv);
+   public RDV getUserbyNom(String titre); 
      
 }
