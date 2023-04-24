@@ -20,5 +20,6 @@ public interface IService <T> {
     public RDV getRdv(int id);
     public void modifierRdv(RDV R);
      public List<RDV>affichageRdvTrieer ();
+   public void   acceptRejectRdv(RDV R,String acceptReject);
      
 }

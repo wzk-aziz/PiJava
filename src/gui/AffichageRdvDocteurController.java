@@ -7,6 +7,7 @@ package gui;
 
 import com.itextpdf.text.DocumentException;
 import entites.RDV;
+import entites.User;
 import static gui.AffichageRdvController.rdv;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -39,7 +40,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import services.ServiceRdv;
+import services.ServiceUser;
 import utils.PDFRDV;
+import utils.SendMail;
 
 /**
  * FXML Controller class
@@ -61,8 +64,10 @@ public class AffichageRdvDocteurController implements Initializable {
     @FXML
     private TableView<RDV> tableView;
 
-     private TableColumn<RDV, Void> colModifBtn;
+//     private TableColumn<RDV, Void> colModifBtn;
     private TableColumn<RDV, Void> colSuppBtn;
+     private TableColumn<RDV, Void> colAcceptBtn;
+    private TableColumn<RDV, Void> colRejectBtn;
     private TableColumn<RDV, Void> colExpBtn;
     ServiceRdv a = new ServiceRdv();
      ObservableList<RDV> obList;
@@ -77,6 +82,8 @@ public class AffichageRdvDocteurController implements Initializable {
     private TextField recherche;
     @FXML
     private Button PDF;
+    @FXML
+    private TableColumn<String, Integer> ColIDPatient;
     /**
      * Initializes the controller class.
      */
@@ -84,27 +91,37 @@ public class AffichageRdvDocteurController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         colSuppBtn = new TableColumn<>("Supprimer");
         tableView.getColumns().add(colSuppBtn);
+//
+//        colModifBtn = new TableColumn<>("Modifier");
+//        tableView.getColumns().add(colModifBtn);
+        
+           colAcceptBtn = new TableColumn<>("Accepter");
+        tableView.getColumns().add(colAcceptBtn);
 
-        colModifBtn = new TableColumn<>("Modifier");
-        tableView.getColumns().add(colModifBtn);
+        colRejectBtn = new TableColumn<>("Reject");
+        tableView.getColumns().add(colRejectBtn);
 
 
         a = new ServiceRdv();
         obList = a.affichageRdv();
         ColID.setCellValueFactory(new PropertyValueFactory<>("id"));
+    
         ColTitre.setCellValueFactory(new PropertyValueFactory<>("titre"));
        ColEtat.setCellValueFactory(new PropertyValueFactory<>("etat"));
         ColDate.setCellValueFactory(new PropertyValueFactory<>("date_rdv"));
          ColStart.setCellValueFactory(new PropertyValueFactory<>("starttime"));
            ColEnd.setCellValueFactory(new PropertyValueFactory<>("endtime"));
+                  ColIDPatient.setCellValueFactory(new PropertyValueFactory<>("id_patient_id"));
                 
 
-        addButtonModifToTable();
+//        addButtonModifToTable();
         addButtonDeleteToTable();
+          addButtonAcceptToTable();
+        addButtonRejectToTable();
    
         tableView.setItems(obList);
 
-        addButtonModifToTable();
+//        addButtonModifToTable();
 
       
 
@@ -116,59 +133,59 @@ public class AffichageRdvDocteurController implements Initializable {
      RDV A = new RDV();
   
 
-    private void addButtonModifToTable() {
-           Callback<TableColumn<RDV, Void>, TableCell<RDV, Void>> cellFactory = new Callback<TableColumn<RDV, Void>, TableCell<RDV, Void>>() {
-            @Override
-            public TableCell<RDV, Void> call(final TableColumn<RDV, Void> param) {
-
-                 TableCell<RDV, Void> cell = new TableCell<RDV, Void>() {
-
-                    {
-                        btn = new Button("Modifier");
-                        btn.setOnAction((ActionEvent event) -> {
-                            try {
-                                A = tableView.getSelectionModel().getSelectedItem();//
-                                System.out.println("hello");
-                                System.out.println("DATA ="+A);
-                                                                rdv = new RDV (A.getId(), A.getDate_rdv(),A.getStarttime(), A.getEndtime(), A.getTitre(),A.getEtat()) ;
-
-                                  FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/ModifierRdvDocteur.fxml"));
-                                Parent root = loader.load();
-                                ModifierRdvController controller = loader.getController();
-                               // controller.setDate_rdv(A.getDate_rdv());
-                                controller.setStarttime(A.getStarttime());
-                                controller.setId(A.getId());
-                                controller.setEndtime(A.getEndtime());
-                                controller.setEtat(A.getEtat());
-                                controller.setTitre(A.getTitre());
-                                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                                stage.setScene(new Scene(root));
-                                stage.show();
-
-
-                              
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            setGraphic(btn);
-                        }
-                    }
-                };
-                return cell;
-            }
-        };
-
-        colModifBtn.setCellFactory(cellFactory);
-    }
+//    private void addButtonModifToTable() {
+//           Callback<TableColumn<RDV, Void>, TableCell<RDV, Void>> cellFactory = new Callback<TableColumn<RDV, Void>, TableCell<RDV, Void>>() {
+//            @Override
+//            public TableCell<RDV, Void> call(final TableColumn<RDV, Void> param) {
+//
+//                 TableCell<RDV, Void> cell = new TableCell<RDV, Void>() {
+//
+//                    {
+//                        btn = new Button("Modifier");
+//                        btn.setOnAction((ActionEvent event) -> {
+//                            try {
+//                                A = tableView.getSelectionModel().getSelectedItem();//
+//                                System.out.println("hello");
+//                                System.out.println("DATA ="+A);
+//                                                                rdv = new RDV (A.getId(), A.getDate_rdv(),A.getStarttime(), A.getEndtime(), A.getTitre(),A.getEtat()) ;
+//
+//                                  FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/ModifierRdvDocteur.fxml"));
+//                                Parent root = loader.load();
+//                                ModifierRdvController controller = loader.getController();
+//                               // controller.setDate_rdv(A.getDate_rdv());
+//                                controller.setStarttime(A.getStarttime());
+//                                controller.setId(A.getId());
+//                                controller.setEndtime(A.getEndtime());
+//                                controller.setEtat(A.getEtat());
+//                                controller.setTitre(A.getTitre());
+//                                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//                                stage.setScene(new Scene(root));
+//                                stage.show();
+//
+//
+//                              
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//                        });
+//                    }
+//
+//                    @Override
+//                    public void updateItem(Void item, boolean empty) {
+//                        super.updateItem(item, empty);
+//                        if (empty) {
+//                            setGraphic(null);
+//                        } else {
+//                            setGraphic(btn);
+//                        }
+//                    }
+//                };
+//                return cell;
+//            }
+//        };
+//
+//        colModifBtn.setCellFactory(cellFactory);
+//    }
     Button btnSupprimer;
     private Label label;
 
@@ -268,12 +285,12 @@ public class AffichageRdvDocteurController implements Initializable {
            ColEnd.setCellValueFactory(new PropertyValueFactory<>("endtime"));
                 
 
-        addButtonModifToTable();
+//        addButtonModifToTable();
         addButtonDeleteToTable();
    
         tableView.setItems(obList);
 
-        addButtonModifToTable();
+//        addButtonModifToTable();
     }
 
     @FXML
@@ -284,7 +301,7 @@ public class AffichageRdvDocteurController implements Initializable {
 
             if (recherche.getText().isEmpty()) {
 
-                addButtonModifToTable();
+//                addButtonModifToTable();
                 addButtonDeleteToTable();
 
             }
@@ -319,6 +336,9 @@ public class AffichageRdvDocteurController implements Initializable {
         sortedData.comparatorProperty().bind(tableView.comparatorProperty());
 
         tableView.setItems(sortedData);
+          addButtonDeleteToTable();
+             addButtonAcceptToTable();
+        addButtonRejectToTable();
     }
 
     @FXML
@@ -336,6 +356,105 @@ public class AffichageRdvDocteurController implements Initializable {
         } catch (URISyntaxException ex) {
             System.out.println(ex.getMessage());
         }
+    }
+     Button btnAccepter;
+
+    private void addButtonAcceptToTable() {
+      Callback<TableColumn<RDV, Void>, TableCell<RDV, Void>> cellFactory = new Callback<TableColumn<RDV, Void>, TableCell<RDV, Void>>() {
+            @Override
+            public TableCell<RDV, Void> call(final TableColumn<RDV, Void> param) {
+
+                TableCell<RDV, Void> cell = new TableCell<RDV, Void>() {
+
+                    {
+                        btnAccepter = new Button("Accepter");
+                        btnAccepter.setOnAction((ActionEvent event) -> {
+                            try {
+                                A = tableView.getSelectionModel().getSelectedItem();//
+                                System.out.println("hello");
+                                System.out.println("DATA =" + A);
+                                ServiceUser su = new ServiceUser();
+                                User u = su.getUserById(A.getId_patient_id());
+                                System.out.println(u);
+                                rdv = new RDV(A.getId(), A.getDate_rdv(), A.getStarttime(), A.getEndtime(), A.getTitre(), A.getEtat());
+                                a.acceptRejectRdv(A, "Approuvé");
+                                try {
+                                    SendMail sendEmail = new SendMail("pidev.chronicaid@gmail.com", "qajfcqlxtcwxinnx", u.getEmail(), "votre rendez vous a ete Accepter", "cher(e)  " + u.getPrenom() + "  Bonne nouvelle , votre rendez vous a ete accepter par le medecin !");
+
+                                } catch (Exception ex) {
+                                    System.out.println(ex.getMessage());
+                                }
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btnAccepter);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+
+        colAcceptBtn.setCellFactory(cellFactory);
+    }
+ Button btnReject;
+    private void addButtonRejectToTable() {
+        Callback<TableColumn<RDV, Void>, TableCell<RDV, Void>> cellFactory = new Callback<TableColumn<RDV, Void>, TableCell<RDV, Void>>() {
+            @Override
+            public TableCell<RDV, Void> call(final TableColumn<RDV, Void> param) {
+
+                TableCell<RDV, Void> cell = new TableCell<RDV, Void>() {
+
+                    {
+                        btnReject = new Button("Rejeter");
+                        btnReject.setOnAction((ActionEvent event) -> {
+                            try {
+                                A = tableView.getSelectionModel().getSelectedItem();//
+                                System.out.println("hello");
+                                System.out.println("DATA =" + A);
+                                ServiceUser su = new ServiceUser();
+                                User u = su.getUserById(A.getId_patient_id());
+                                System.out.println(u);
+                                rdv = new RDV(A.getId(), A.getDate_rdv(), A.getStarttime(), A.getEndtime(), A.getTitre(), A.getEtat());
+                                a.acceptRejectRdv(A, "Rejeter");
+                                try {
+                                    SendMail sendEmail = new SendMail("pidev.chronicaid@gmail.com", "qajfcqlxtcwxinnx", u.getEmail(), "votre rendez vous a ete rejeter", "cher(e) " + u.getPrenom() + "   Nous sommes desolee , mais votre rendez vous a ete rejeter per le Medecin  !");
+
+                                } catch (Exception ex) {
+                                    System.out.println(ex.getMessage());
+                                }
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Void item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setGraphic(btnReject);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+
+        colRejectBtn.setCellFactory(cellFactory);
     }
     }    
     

@@ -23,6 +23,7 @@
             <TableColumn fx:id="ColTitre" prefWidth="101.33331298828125" text="nom du patient" />
             <TableColumn fx:id="ColEtat" prefWidth="53.3333740234375" text="etat" />
             <TableColumn fx:id="ColID" prefWidth="34.0" text="ID" />
+            <TableColumn fx:id="ColIDPatient" prefWidth="50.666748046875" text="Patient" />
          </columns>
       </TableView>
       <Button layoutX="32.0" layoutY="17.0" mnemonicParsing="false" onAction="#ordonnanceDocteur" style="-fx-background-color: #3a8eba;" text="Liste des Ordonnances" textFill="WHITE" />

@@ -27,13 +27,19 @@ import static java.time.temporal.TemporalQueries.localDate;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
+import services.ServiceUser;
+import entites.User ;
+import utils.SendMail;
 
 
 /**
@@ -58,6 +64,11 @@ public class AjouterRDVController implements Initializable {
     private Button ajoutbtn;
 
      ServiceRdv sr = new ServiceRdv() ;
+    @FXML
+    private ComboBox<String> comboPatient;
+    @FXML
+    private ComboBox<String> comboMedecin;
+    ServiceUser cc = new ServiceUser();
   
     /**
      * Initializes the controller class.
@@ -67,10 +78,53 @@ public class AjouterRDVController implements Initializable {
         // TODO
           etatR.setText("Pending");
         etatR.setEditable(false);
+       ObservableList<String> patientList = FXCollections.observableArrayList();
+ObservableList<String> medecinList = FXCollections.observableArrayList();
+
+ServiceUser su = new ServiceUser();
+
+ObservableList<User> obList = su.affichageUser();
+
+for (User user : obList) {
+    if (user.getRole() == 1) {
+        patientList.add(user.getNom());
+    } else if (user.getRole() == 2) {
+        medecinList.add(user.getNom());
+    }
+}
+
+comboPatient.setItems(patientList);
+comboMedecin.setItems(medecinList);
+    }
+     
+    public int getUserId(String userName) {
+   ServiceUser su = new ServiceUser();
+    ObservableList<User> obList = su.affichageUser();
+
+    for (User user : obList) {
+        if (user.getNom().equals(userName)) {
+            return user.getId();
+        }
+    }
+
+    return -1; // Si l'utilisateur n'est pas trouvée, retourne -1.
+}
+ @FXML
+    private void selectPatient(ActionEvent event) {
+           String userName = comboPatient.getSelectionModel().getSelectedItem().toString();
+    int userId = getUserId(userName);
+    System.out.println("Selected user ID: " + userId);
+    }
+
+    @FXML
+    private void selectMedecin(ActionEvent event) {
+         String userName = comboMedecin.getSelectionModel().getSelectedItem().toString();
+    int userId = getUserId(userName);
+    System.out.println("Selected user ID: " + userId);
     }    
 
     @FXML
-    private void AjoutRdvHandel(ActionEvent event) {
+    private void AjoutRdvHandel(ActionEvent event)throws Exception  {
              String titre  = nomR.getText();
     String etat  = etatR.getText();
     LocalDate dateRdv = dateR.getValue();
@@ -90,10 +144,22 @@ public class AjouterRDVController implements Initializable {
         Date date = Date.from(dateRdv.atStartOfDay(defaultZoneId).toInstant());
         Time timeDebut = Time.valueOf(heureDebut);
         Time timeFin = Time.valueOf(heureFin);
-        
-        RDV rdv = new RDV(date, timeDebut, timeFin, titre, etat);
+        ServiceUser su = new ServiceUser();
+            User user = su.getUserbyNom(comboPatient.getSelectionModel().getSelectedItem().toString());
+            User u = su.getUserbyNom(comboMedecin.getSelectionModel().getSelectedItem().toString());
+        RDV rdv = new RDV(date, timeDebut, timeFin, titre, etat ,user.getId(), u.getId());
         sr.ajouterRdv(rdv);
         showAlert("Rendez-vous ajouté", "Rendez-vous ajouté avec succès");
+        // Récupération de l'utilisateur concerné par le rendez-vous
+User medecin = su.getUserById(u.getId());
+
+// Envoi d'un e-mail pour confirmer la prise de rendez-vous
+String sujet = "noveau rendez vous";
+String corps = "Bonjour " + medecin.getPrenom() + ",\n\n";
+corps += "Nous vous informions qu'un noveau rendez-vous du " + dateRdv + " de " + heureDebut + " à " + heureFin + " a bien ete enregistrer veuillez repondre par une reponse a ce rendez vous .\n\n";
+corps += "Cordialement,\n";
+corps += "L'équipe médicale";
+SendMail sendEmail = new SendMail("pidev.chronicaid@gmail.com", "qajfcqlxtcwxinnx", medecin.getEmail(), sujet, corps);
     }
     
 }
@@ -119,5 +185,7 @@ public class AjouterRDVController implements Initializable {
                     System.out.println(ex.getMessage());
                 };
     }
+
+   
     
 }

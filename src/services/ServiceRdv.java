@@ -30,7 +30,7 @@ public class ServiceRdv implements IService<RDV> {
     @Override
     public void ajouterRdv(RDV R) {
      
-       String  req ="INSERT INTO rdv(date_rdv,starttime,endtime,titre,etat )values(?,?,?,?,?)";
+       String  req ="INSERT INTO rdv(date_rdv,starttime,endtime,titre,etat,id_patient_id,iduserrdv_id )values(?,?,?,?,?,?,?)";
 
        PreparedStatement stm;
         try {
@@ -41,6 +41,8 @@ public class ServiceRdv implements IService<RDV> {
 
                     stm.setString(4, R.getTitre());
                     stm.setString(5, R.getEtat());
+                      stm.setInt(6, R.getId_patient_id());
+                        stm.setInt(7, R.getIduserrdv_id());
    
 
 
@@ -66,13 +68,15 @@ public class ServiceRdv implements IService<RDV> {
             
             while(rs.next()) {
                 int id= rs.getInt("id");
+                 int idPatient= rs.getInt("id_patient_id");
                 Date date_rdv = rs.getDate("date_rdv");
                 Time starttime = rs.getTime("starttime");
                 Time endtime = rs.getTime("endtime");
                 String titre = rs.getString("titre");
                String etat = rs.getString("etat");
+              
                 
-                RDV p = new RDV(id,date_rdv,starttime,endtime,titre,etat);
+                RDV p = new RDV(id,date_rdv,starttime,endtime,titre,etat,idPatient);
               
                obListR.add(p);
 
@@ -165,6 +169,27 @@ public class ServiceRdv implements IService<RDV> {
             System.out.println("exception ="+ex.getMessage() );
         }
         return obListR;
+    }
+
+    @Override
+    public void acceptRejectRdv(RDV R, String acceptReject) {
+       String req ="UPDATE rdv  SET etat = ? WHERE id = ?";
+      
+       PreparedStatement stm;
+        try {
+            stm = conn.prepareStatement(req);
+ 
+                    stm.setString(1, acceptReject);
+      
+        stm.setInt(2, R.getId());
+
+        
+            stm.executeUpdate();
+                    System.out.println("rendez vous modifié avec succés");
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     

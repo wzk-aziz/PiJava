@@ -16,9 +16,44 @@ public class RDV {
     private Date date_rdv ;
     private Time starttime , endtime ;
     private String titre,etat ; 
+     private int id_patient_id;
+      private int iduserrdv_id ;
     
     public RDV(){
     }
+
+    public RDV(int id, Date date_rdv, Time starttime, Time endtime, String titre, String etat, int id_patient_id) {
+        this.id = id;
+        this.date_rdv = date_rdv;
+        this.starttime = starttime;
+        this.endtime = endtime;
+        this.titre = titre;
+        this.etat = etat;
+        this.id_patient_id = id_patient_id;
+    }
+
+    public RDV(int id, Date date_rdv, Time starttime, Time endtime, String titre, String etat, int id_patient_id, int iduserrdv_id) {
+        this.id = id;
+        this.date_rdv = date_rdv;
+        this.starttime = starttime;
+        this.endtime = endtime;
+        this.titre = titre;
+        this.etat = etat;
+        this.id_patient_id = id_patient_id;
+        this.iduserrdv_id = iduserrdv_id;
+    }
+
+    public RDV(Date date_rdv, Time starttime, Time endtime, String titre, String etat, int id_patient_id, int iduserrdv_id) {
+        this.date_rdv = date_rdv;
+        this.starttime = starttime;
+        this.endtime = endtime;
+        this.titre = titre;
+        this.etat = etat;
+        this.id_patient_id = id_patient_id;
+        this.iduserrdv_id = iduserrdv_id;
+    }
+    
+    
 
     public RDV(int id, Date date_rdv, Time starttime, Time endtime, String titre, String etat) {
         this.id = id;
@@ -33,11 +68,24 @@ public class RDV {
         this.id = id;
     } 
 
+    
 
     @Override
     public String toString() {
-        return "RDV{" + "id=" + id + ", date_rdv=" + date_rdv + ", starttime=" + starttime + ", endtime=" + endtime + ", titre=" + titre + ", etat=" + etat + '}';
+        return "RDV{" + "id=" + id + ", date_rdv=" + date_rdv + ", starttime=" + starttime + ", endtime=" + endtime + ", titre=" + titre + ", etat=" + etat + ", id_patient_id=" + id_patient_id + ", iduserrdv_id=" + iduserrdv_id + '}';
     }
+
+    public int getIduserrdv_id() {
+        return iduserrdv_id;
+    }
+
+    public void setIduserrdv_id(int iduserrdv_id) {
+        this.iduserrdv_id = iduserrdv_id;
+    }
+
+   
+
+
     
 
     public RDV(Date date_rdv, Time starttime, Time endtime, String titre, String etat) {
@@ -46,6 +94,14 @@ public class RDV {
         this.endtime = endtime;
         this.titre = titre;
         this.etat = etat;
+    }
+
+    public int getId_patient_id() {
+        return id_patient_id;
+    }
+
+    public void setId_patient_id(int id_patient_id) {
+        this.id_patient_id = id_patient_id;
     }
 
    

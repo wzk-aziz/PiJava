@@ -280,6 +280,9 @@ public class AffichageOrdonnanceController implements Initializable {
         sortedData.comparatorProperty().bind(tableView.comparatorProperty());
 
         tableView.setItems(sortedData);
+          addButtonModifToTable();
+        addButtonDeleteToTable();
+        
 
     }
 
