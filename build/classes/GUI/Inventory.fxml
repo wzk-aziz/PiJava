@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="483.0" prefWidth="881.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.InventoryController">
+   <children>
+      <TextField fx:id="nommed" layoutX="47.0" layoutY="83.0" prefHeight="33.0" prefWidth="315.0" promptText="Veuillez entre le nom de votre medicament" style="-fx-border-color: #131314;" />
+      <ChoiceBox fx:id="nbplChoiceBox" layoutX="380.0" layoutY="84.0" prefHeight="31.0" prefWidth="252.0" />
+      <Label layoutX="47.0" layoutY="44.0" text="Nom du medicament" />
+      <Label layoutX="380.0" layoutY="44.0" text="Nombre de pellules/Gellules par boite" />
+      <Button fx:id="btnajouterinv" layoutX="671.0" layoutY="84.0" mnemonicParsing="false" onAction="#addinv" prefHeight="31.0" prefWidth="157.0" text="Ajouter" />
+      <Button fx:id="btnsupprimerinv" layoutX="671.0" layoutY="322.0" mnemonicParsing="false" onAction="#deleteinv" prefHeight="31.0" prefWidth="157.0" text="Supprimer" />
+      <TableView fx:id="plTable" layoutX="47.0" layoutY="138.0" prefHeight="200.0" prefWidth="493.0">
+        <columns>
+            <TableColumn fx:id="idcol" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="nomcol" prefWidth="202.0" text="Nom du medicament" />
+          <TableColumn fx:id="plcol" minWidth="0.0" prefWidth="215.0" text="Dose par boite" />
+        </columns>
+      </TableView>
+      <Button fx:id="homebtn" layoutX="30.0" layoutY="414.0" mnemonicParsing="false" onAction="#gohome" prefHeight="31.0" prefWidth="128.0" text="Home Page" />
+      <Button fx:id="btnrestock" layoutX="671.0" layoutY="207.0" mnemonicParsing="false" onAction="#restockinv" prefHeight="31.0" prefWidth="157.0" text="Restock pills" />
+   </children>
+</AnchorPane>

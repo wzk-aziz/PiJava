@@ -13,18 +13,19 @@ public class Medicaments {
     
     private int id;
   
-    private String nommed,dosage;
+    private String nommed;
+    private int dosage;
     private String heurePrise;
     private int rappel_id;
 
-    public Medicaments(String nommed, String dosage, String heurePrise, int rappel_id) {
+    public Medicaments(String nommed, int dosage, String heurePrise, int rappel_id) {
         this.nommed = nommed;
         this.dosage = dosage;
         this.heurePrise = heurePrise;
         this.rappel_id = rappel_id;
     }
 
-    public Medicaments(int id, String nommed, String dosage, String heurePrise, int rappel_id) {
+    public Medicaments(int id, String nommed, int dosage, String heurePrise, int rappel_id) {
         this.id = id;
         this.nommed = nommed;
         this.dosage = dosage;
@@ -51,11 +52,11 @@ public class Medicaments {
         this.nommed = nommed;
     }
 
-    public String getDosage() {
+    public int getDosage() {
         return dosage;
     }
 
-    public void setDosage(String dosage) {
+    public void setDosage(int dosage) {
         this.dosage = dosage;
     }
 

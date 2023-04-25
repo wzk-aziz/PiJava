@@ -24,15 +24,16 @@ public class Rappel extends Application {
     public void start(Stage primaryStage) {
             Parent root= null;
         try {
-            root = FXMLLoader.load(getClass().getResource("Rappel.fxml"));
+            root = FXMLLoader.load(getClass().getResource("Home.fxml"));
             Scene scene = new Scene(root);
-            primaryStage.setTitle("Ajout d'un rappel");
+            primaryStage.setTitle("ienvenue a chronicaid");
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
     }
+    
     /**
      * @param args the command line arguments
      */

@@ -4,11 +4,9 @@
  * and open the template in the editor.
  */
 package services;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 
-import java.io.FileOutputStream;
-import java.io.IOException;
+
 import java.sql.Connection;
 import util.MyConnection;
 import java.sql.PreparedStatement;
@@ -18,9 +16,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import models.Medicaments;
-import org.apache.poi.xssf.usermodel.XSSFCell;
-import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -29,18 +26,21 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 public class MedicamentsService {
     
     private Connection cnx;
-    
+    private RappelService rappelService;
+     private InventoryService inventoryService;
     public MedicamentsService() {
         cnx = MyConnection.getInstance().getCnx();
+         inventoryService = new InventoryService();
+         rappelService=new RappelService();
     }
-    
-    public boolean addMedicaments(Medicaments m) {
+   /* 
+     public boolean addMedicaments(Medicaments m) {
     try {
         String qry = "INSERT INTO medicaments(rappel_id, nommed, dosage, heureprise) VALUES (?, ?, ?, ?)";
         PreparedStatement pstmt = cnx.prepareStatement(qry);
         pstmt.setInt(1, m.getRappel_id());
         pstmt.setString(2, m.getNommed());
-        pstmt.setString(3, m.getDosage());
+        pstmt.setInt(3, m.getDosage());
         pstmt.setString(4, m.getHeurePrise());
         int rowsInserted = pstmt.executeUpdate();
         if (rowsInserted > 0) {
@@ -53,8 +53,48 @@ public class MedicamentsService {
         return false;
     }
 }
-
+*/
     
+    
+  
+ public boolean addMedicaments(Medicaments m) {
+    try {
+        String qry = "INSERT INTO medicaments(rappel_id, nommed, dosage, heureprise) VALUES (?, ?, ?, ?)";
+        PreparedStatement pstmt = cnx.prepareStatement(qry);
+        pstmt.setInt(1, m.getRappel_id());
+        pstmt.setString(2, m.getNommed());
+        pstmt.setInt(3, m.getDosage());
+        pstmt.setString(4, m.getHeurePrise());
+        int rowsInserted = pstmt.executeUpdate();
+        if (rowsInserted > 0) {
+            //local time is dd/mm/yy,hh:mm:ss:msms
+            // Check if medication is due for intake and send SMS notification if necessary
+            //parse to make heure de prise same format as local time hope it works
+            
+            LocalTime heureprise = LocalTime.parse(m.getHeurePrise());
+            if (heureprise.equals(LocalTime.now())) {
+                String message = "Temps pour prendre vos medicaments";
+                SmsService smsService = new SmsService();
+                try {
+                    SmsService.sendSms("+21654260859", message);
+                } catch (Exception ex) {
+                    System.out.println("Failed to send SMS: " + ex.getMessage());
+                }
+            }
+            
+            return true;
+        } else {
+            return false;
+        }
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
+        return false;
+    }
+}
+
+
+
+
     public List<Medicaments> AfficherMedicaments() {
         List<Medicaments> Medicaments = new ArrayList<>();
         try {
@@ -66,7 +106,7 @@ public class MedicamentsService {
                 me.setId(rs.getInt("id"));
                 me.setRappel_id(rs.getInt("rappel_id"));
                 me.setNommed(rs.getString("nommed"));
-                me.setDosage(rs.getString("dosage"));
+                me.setDosage(rs.getInt("dosage"));
                 me.setHeurePrise(rs.getString("heureprise"));
                 Medicaments.add(me);
             }
@@ -87,24 +127,22 @@ public class MedicamentsService {
         }
     }
     
-   public boolean updateMedicaments(Medicaments m) {
-    try {
-        
-        String qry = "UPDATE medicaments SET rappel_id = ?, nommed = ?, dosage = ?, heureprise = ? WHERE id = ?";
-
-        PreparedStatement pstmt = cnx.prepareStatement(qry);
-        pstmt.setInt(1, m.getRappel_id());
-        pstmt.setString(2, m.getNommed());
-        pstmt.setString(3, m.getDosage());
-        pstmt.setString(4, m.getHeurePrise());
-        pstmt.setInt(5, m.getId());
-        pstmt.executeUpdate();
-        return true;
-    } catch (SQLException ex) {
-        System.out.println(ex.getMessage());
-        return false;
+    public boolean updateMedicaments(Medicaments m) {
+        try {
+            String qry = "UPDATE medicaments SET rappel_id = ?, nommed = ?, dosage = ?, heureprise = ? WHERE id = ?";
+            PreparedStatement pstmt = cnx.prepareStatement(qry);
+            pstmt.setInt(1, m.getRappel_id());
+            pstmt.setString(2, m.getNommed());
+            pstmt.setInt(3, m.getDosage());
+            pstmt.setString(4, m.getHeurePrise());
+            pstmt.setInt(5, m.getId());
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            return false;
+        }
     }
-}
 public List<Medicaments> searchByName(String nommed) {
     List<Medicaments> medications = new ArrayList<>();
     try {
@@ -117,7 +155,7 @@ public List<Medicaments> searchByName(String nommed) {
             m.setId(rs.getInt("id"));
             m.setRappel_id(rs.getInt("rappel_id"));
             m.setNommed(rs.getString("nommed"));
-            m.setDosage(rs.getString("dosage"));
+            m.setDosage(rs.getInt("dosage"));
             m.setHeurePrise(rs.getString("heureprise"));
             medications.add(m);
         }
@@ -126,46 +164,76 @@ public List<Medicaments> searchByName(String nommed) {
     }
     return medications;
 }
-public void generateExcel() {
-    List<Medicaments> medicamentsList = AfficherMedicaments();
-    XSSFWorkbook workbook = new XSSFWorkbook();
-    XSSFSheet sheet = workbook.createSheet("Medicaments Data");
-    XSSFRow headerRow = sheet.createRow(0);
-
-    // Add column names to the header row
-    XSSFCell cell = headerRow.createCell(0);
-    cell.setCellValue("ID");
-    cell = headerRow.createCell(1);
-    cell.setCellValue("Rappel ID");
-    cell = headerRow.createCell(2);
-    cell.setCellValue("Nommed");
-    cell = headerRow.createCell(3);
-    cell.setCellValue("Dosage");
-    cell = headerRow.createCell(4);
-    cell.setCellValue("Heureprise");
-
-    // Add medicaments data to the rows
-    int rowNum = 1;
-    for (Medicaments medicament : medicamentsList) {
-        XSSFRow row = sheet.createRow(rowNum++);
-        row.createCell(0).setCellValue(medicament.getId());
-        row.createCell(1).setCellValue(medicament.getRappel_id());
-        row.createCell(2).setCellValue(medicament.getNommed());
-        row.createCell(3).setCellValue(medicament.getDosage());
-        row.createCell(4).setCellValue(medicament.getHeurePrise());
-    }
-
+public void markMedicationAsTaken(int id, int dosage) {
     try {
-        // Write the workbook to an output stream
-        FileOutputStream outputStream = new FileOutputStream("medicaments.xlsx");
-        workbook.write(outputStream);
-        workbook.close();
-        outputStream.close();
-        System.out.println("Medicaments data written to Excel file successfully.");
-    } catch (IOException e) {
-        e.printStackTrace();
+        // Get the medication based on ID
+        String qrySelect = "SELECT * FROM medicaments WHERE id = ?";
+        PreparedStatement pstmtSelect = cnx.prepareStatement(qrySelect);
+        pstmtSelect.setInt(1, id);
+        ResultSet rs = pstmtSelect.executeQuery();
+        
+        // Decrement the number of pills in inventory
+        if (rs.next()) {
+            String medicationName = rs.getString("nommed");
+            String qryDecrement = "UPDATE inventory SET nbpl = nbpl - ? WHERE nommed = ?";
+            PreparedStatement pstmtDecrement = cnx.prepareStatement(qryDecrement);
+            pstmtDecrement.setInt(1, dosage);
+            pstmtDecrement.setString(2, medicationName);
+            pstmtDecrement.executeUpdate();
+            
+            // Check if inventory falls below 10 and display alert message
+            String qryInventory = "SELECT nbpl FROM inventory WHERE nommed = ?";
+            PreparedStatement pstmtInventory = cnx.prepareStatement(qryInventory);
+            pstmtInventory.setString(1, medicationName);
+            ResultSet rsInventory = pstmtInventory.executeQuery();
+            if (rsInventory.next()) {
+                int nbpl = rsInventory.getInt("nbpl");
+                if (nbpl < 10) {
+                    System.out.println("Alert: Inventory for " + medicationName + " is low. Restock needed.");
+                }
+            }
+        }
+        
+        // Update the medication as taken
+        String qryUpdate = "UPDATE medicaments SET pris = true WHERE id = ?";
+        PreparedStatement pstmtUpdate = cnx.prepareStatement(qryUpdate);
+        pstmtUpdate.setInt(1, id);
+        pstmtUpdate.executeUpdate();
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
     }
 }
-
+public void checkInventory(int threshold) {
+    try {
+        String qrySelect = "SELECT * FROM inventory WHERE nbpel < ?";
+        PreparedStatement pstmtSelect = cnx.prepareStatement(qrySelect);
+        pstmtSelect.setInt(1, threshold);
+        ResultSet rs = pstmtSelect.executeQuery();
+        while (rs.next()) {
+            String medicationName = rs.getString("nommed");
+            int numPills = rs.getInt("nbpel");
+            System.out.println("WARNING: " + medicationName + " inventory is low. Number of pills remaining: " + numPills);
+        }
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
+    }
     
+}
+public ResultSet getNommedforcombobox() throws SQLException {
+        Statement stmt = cnx.createStatement();
+        String query = "SELECT nommed FROM inventory";
+        ResultSet rs = stmt.executeQuery(query);
+        return rs;
+    }
+
+
+public ResultSet getIdrappelforcombobox() throws SQLException {
+        Statement stmt = cnx.createStatement();
+        String query = "SELECT id FROM rappel";
+        ResultSet rs = stmt.executeQuery(query);
+        return rs;
+    }
+
+
+
 }

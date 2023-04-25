@@ -20,5 +20,5 @@ public interface InterfaceMedicaments {
     public void SupprimerMedicaments(int id);
     
     public void updateMedicaments(Medicaments m);
-    public void generateExcel();
+    
 }

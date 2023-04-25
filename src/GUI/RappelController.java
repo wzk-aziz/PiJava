@@ -7,9 +7,6 @@ package GUI;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,13 +26,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import models.Rappel;
 import services.RappelService;
-import util.MyConnection;
 
-/**
- * FXML Controller class
- *
- * @author user
- */
 public class RappelController implements Initializable {
     private RappelService rcrud = new RappelService();
 
@@ -45,8 +36,6 @@ public class RappelController implements Initializable {
     private Button btnupdate;
     @FXML
     private Button btndelete;
-    @FXML
-    private Button btnajoutermed;
     @FXML
     private TextField nomrappel;
     @FXML
@@ -63,15 +52,15 @@ public class RappelController implements Initializable {
     private TableColumn<Rappel, String> colMessage;
     
     private ObservableList<Rappel> data = FXCollections.observableArrayList();
+    @FXML
+    private Button btnhome;
 
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         colId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        colNom.setCellValueFactory(new PropertyValueFactory<>("nomrappel"));
+       colNom.setCellValueFactory(new PropertyValueFactory<>("nomrappel"));
         colMessage.setCellValueFactory(new PropertyValueFactory<>("message"));
+        
         tableRappel.setItems(data);
         loadData();
     }
@@ -90,16 +79,14 @@ public class RappelController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("Veuillez sélectionner un rappel à mettre à jour!");
             alert.showAndWait();
-            
-            // Set the values of the input fields to the selected medication's information
-    messagerappel.setText(r.getMessage());
- ;
         } else {
             r.setNomrappel(nomrappel.getText());
             r.setMessage(messagerappel.getText());
             rcrud.update(r);
             loadData();
         }
+        // Set the values of the input fields to the selected medication's information
+        messagerappel.setText(r.getMessage());
     }
 
     @FXML
@@ -117,7 +104,6 @@ public class RappelController implements Initializable {
         }
     }
 
-    @FXML
     private void medicaments(ActionEvent event) {
         // Ajoutez ici le code pour changer de vue et afficher la liste des médicaments
             try {
@@ -167,6 +153,21 @@ private void addrappel(ActionEvent event) {
     } catch (IOException e) {
     }
         
+        
+    }
+
+    @FXML
+    private void gohome(ActionEvent event) {
+        
+         try {
+        Parent inscrParent = FXMLLoader.load(getClass().getResource("Home.fxml"));
+        Scene inscrscene = new Scene(inscrParent);
+        Stage window = (Stage)(((Button)event.getSource()).getScene().getWindow());
+        window.setScene(inscrscene);
+        window.show();
+    } catch (IOException e) {
+    }
+      
         
     }
     
