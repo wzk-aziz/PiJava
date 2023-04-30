@@ -5,6 +5,7 @@
  */
 package interfaces;
 
+import java.io.File;
 import java.util.List;
 import models.Inventory;
 
@@ -18,4 +19,6 @@ public interface InterfaceInventory {
       public void SupprimerInventory(int id);
        public boolean updateInventory(Inventory i) ;
        public List<Inventory> searchByNameinv(String nommed);
+        public void readInventory(File file);
+       
 }

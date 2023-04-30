@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GUI;
+package pijava;
 
+import GUI.*;
 import java.io.IOException;
 import javafx.application.Application;
 
@@ -24,7 +25,7 @@ public class Rappel extends Application {
     public void start(Stage primaryStage) {
             Parent root= null;
         try {
-            root = FXMLLoader.load(getClass().getResource("Home.fxml"));
+            root = FXMLLoader.load(getClass().getResource("GUI/Home.fxml"));
             Scene scene = new Scene(root);
             primaryStage.setTitle("Bienvenue a chronicaid");
             primaryStage.setScene(scene);

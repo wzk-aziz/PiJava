@@ -4,9 +4,17 @@
  * and open the template in the editor.
  */
 package GUI;
-
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -25,6 +33,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import models.Inventory;
 import services.InventoryService;
@@ -58,14 +67,17 @@ public class InventoryController implements Initializable {
     @FXML
     private TableColumn<Inventory, Integer> plcol;
     
-    @FXML
-    private TableColumn<Inventory, Integer> idcol;
+   
 
     private InventoryService inventoryService;
     @FXML
     private Button homebtn;
     @FXML
     private Button btnrestock;
+    @FXML
+    private Button btnSearch;
+    @FXML
+    private Button btnimport;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -78,7 +90,7 @@ public class InventoryController implements Initializable {
 
         // Set up table view
         inventoryService = new InventoryService();
-        idcol.setCellValueFactory(new PropertyValueFactory<>("id"));
+      
         nomcol.setCellValueFactory(new PropertyValueFactory<>("nommed"));
         plcol.setCellValueFactory(new PropertyValueFactory<>("nbpl"));
         plTable.setItems(data);
@@ -177,4 +189,33 @@ private void restockinv(ActionEvent event) {
         alert.showAndWait();
     }
 }
+
+    @FXML
+    private void searchname(ActionEvent event) {
+   String name = nommed.getText().trim();
+
+    // Perform search by name
+    List<Inventory> searchResult = inventoryService.searchByNameinv(name);
+
+    // Convert List to ObservableList
+    ObservableList<Inventory> observableResult = FXCollections.observableArrayList();
+    observableResult.addAll(searchResult);
+
+    // Update table view with search result
+    data.clear();
+    data.addAll(observableResult);
+    plTable.refresh();
+    }
+
+    @FXML
+    private void importmed(ActionEvent event) {
+        Stage stage = (Stage) btnimport.getScene().getWindow();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Inventory File");
+        File selectedFile = fileChooser.showOpenDialog(stage);
+
+        if (selectedFile != null) {
+            inventoryService.readInventory(selectedFile);
+        }
+    }
 }

@@ -21,15 +21,14 @@
             <Font name="Corbel Bold Italic" size="28.0" />
          </font>
       </Label>
-      <TableView fx:id="tableRappel" layoutX="304.0" layoutY="99.0" onMouseClicked="#afficherRappelSelected" prefHeight="290.0" prefWidth="436.0" style="-fx-background-color: #ffff; -fx-border-color: #131314;">
+      <TableView fx:id="tableRappel" layoutX="304.0" layoutY="99.0" onMouseClicked="#afficherRappelSelected" prefHeight="290.0" prefWidth="640.0" style="-fx-background-color: #ffff; -fx-border-color: #131314;">
          <columns>
-            <TableColumn fx:id="colId" prefWidth="50" text="ID" />
-            <TableColumn fx:id="colNom" prefWidth="165.5999755859375" text="Nom" />
-            <TableColumn fx:id="colMessage" prefWidth="218.4000244140625" text="Message" />
+            <TableColumn fx:id="colMessage" prefWidth="269.0" text="Nom" />
+            <TableColumn fx:id="colNom" prefWidth="369.0" text="Message" />
          </columns>
       </TableView>
-      <Button fx:id="btnupdate" layoutX="795.0" layoutY="98.0" mnemonicParsing="false" onAction="#updaterappel" prefHeight="27.0" prefWidth="91.0" style="-fx-border-color: #131314; -fx-background-color: #000000;" text="Modifier" textFill="WHITE" />
-      <Button fx:id="btndelete" layoutX="789.0" layoutY="338.0" mnemonicParsing="false" onAction="#deleterappel" prefHeight="31.0" prefWidth="103.0" style="-fx-border-color: #131314; -fx-background-color: #000000;" text="Supprimer" textFill="WHITE" />
+      <Button fx:id="btnupdate" layoutX="341.0" layoutY="55.0" mnemonicParsing="false" onAction="#updaterappel" prefHeight="27.0" prefWidth="91.0" style="-fx-border-color: #131314; -fx-background-color: #000000;" text="Modifier" textFill="WHITE" />
+      <Button fx:id="btndelete" layoutX="789.0" layoutY="55.0" mnemonicParsing="false" onAction="#deleterappel" prefHeight="31.0" prefWidth="103.0" style="-fx-border-color: #131314; -fx-background-color: #000000;" text="Supprimer" textFill="WHITE" />
       <Label layoutX="25.0" layoutY="85.0" prefHeight="27.0" prefWidth="47.0" text="Nom">
          <font>
             <Font size="14.0" />

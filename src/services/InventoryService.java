@@ -4,6 +4,9 @@
  * and open the template in the editor.
  */
 package services;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import util.MyConnection;
 import java.sql.PreparedStatement;
@@ -13,6 +16,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import models.Inventory;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 
 /**
@@ -113,6 +121,36 @@ public class InventoryService {
     }
     return inventory;
 }
+      
+      
+      
+       public void readInventory(File file) {
+        String fileName = file.getAbsolutePath();
+        try (FileInputStream inputStream = new FileInputStream(fileName);
+             Workbook workbook = WorkbookFactory.create(inputStream)) {
+            Sheet sheet = workbook.getSheet("inventory");
+            for (Row row : sheet) {
+                String name = null;
+                int count = 0;
+                for (Cell cell : row) {
+                    int columnIndex = cell.getColumnIndex();
+                    switch (columnIndex) {
+                        case 0: // "nommed" column
+                            name = cell.getStringCellValue();
+                            break;
+                        case 1: // "nbpl" column
+                            count = (int) cell.getNumericCellValue();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                // Process the name and count values here
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
       
 }

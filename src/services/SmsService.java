@@ -12,7 +12,7 @@ import com.twilio.type.PhoneNumber;
 
 public class SmsService {
     private static final String ACCOUNT_SID = "ACed550faf67f6029d0c964cbd1f87f69c";
-    private static final String AUTH_TOKEN = "0c149ef70e2048fad630d8661f486517";
+    private static final String AUTH_TOKEN = "f82ff32752b5756407b4512e792ace0e";
     private static final String TWILIO_PHONE_NUMBER = "+16813233888";
 
     public static void sendSms(String toPhoneNumber, String messageBody) {

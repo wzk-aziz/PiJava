@@ -18,12 +18,13 @@
       <Button fx:id="btnsupprimerinv" layoutX="671.0" layoutY="322.0" mnemonicParsing="false" onAction="#deleteinv" prefHeight="31.0" prefWidth="157.0" text="Supprimer" />
       <TableView fx:id="plTable" layoutX="47.0" layoutY="138.0" prefHeight="200.0" prefWidth="493.0">
         <columns>
-            <TableColumn fx:id="idcol" prefWidth="75.0" text="ID" />
-          <TableColumn fx:id="nomcol" prefWidth="202.0" text="Nom du medicament" />
-          <TableColumn fx:id="plcol" minWidth="0.0" prefWidth="215.0" text="Dose par boite" />
+          <TableColumn fx:id="nomcol" prefWidth="342.0" text="Nom du medicament" />
+          <TableColumn fx:id="plcol" minWidth="0.0" prefWidth="150.0" text="Dose par boite" />
         </columns>
       </TableView>
       <Button fx:id="homebtn" layoutX="30.0" layoutY="414.0" mnemonicParsing="false" onAction="#gohome" prefHeight="31.0" prefWidth="128.0" text="Home Page" />
       <Button fx:id="btnrestock" layoutX="671.0" layoutY="207.0" mnemonicParsing="false" onAction="#restockinv" prefHeight="31.0" prefWidth="157.0" text="Restock pills" />
+      <Button fx:id="btnSearch" layoutX="199.0" layoutY="39.0" mnemonicParsing="false" onAction="#searchname" prefHeight="31.0" prefWidth="141.0" text="Search" />
+      <Button fx:id="btnimport" layoutX="654.0" layoutY="414.0" mnemonicParsing="false" onAction="#importmed" prefHeight="31.0" prefWidth="172.0" text="Import medicaments" />
    </children>
 </AnchorPane>

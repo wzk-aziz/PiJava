@@ -13,10 +13,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import models.Medicaments;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -55,7 +58,7 @@ public class MedicamentsService {
 }
 */
     
-    
+     
   
  public boolean addMedicaments(Medicaments m) {
     try {
@@ -71,8 +74,8 @@ public class MedicamentsService {
             // Check if medication is due for intake and send SMS notification if necessary
             //parse to make heure de prise same format as local time hope it works
             
-            LocalTime heureprise = LocalTime.parse(m.getHeurePrise());
-            if (heureprise.equals(LocalTime.now())) {
+           //LocalTime heureprise = LocalTime.parse(m.getHeurePrise());
+          //  if (heureprise.equals(LocalTime.now())) {
                 String message = "Temps pour prendre vos medicaments";
                 SmsService smsService = new SmsService();
                 try {
@@ -83,6 +86,38 @@ public class MedicamentsService {
             }
             
             return true;
+       // } else {
+            //return false;
+       // }
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
+        return false;
+    }
+}
+/*
+public boolean addMedicaments(Medicaments m) {
+    try {
+        String qry = "INSERT INTO medicaments(rappel_id, nommed, dosage, heureprise) VALUES (?, ?, ?, ?)";
+        PreparedStatement pstmt = cnx.prepareStatement(qry);
+        pstmt.setInt(1, m.getRappel_id());
+        pstmt.setString(2, m.getNommed());
+        pstmt.setInt(3, m.getDosage());
+        pstmt.setString(4, m.getHeurePrise());
+        int rowsInserted = pstmt.executeUpdate();
+        if (rowsInserted > 0) {
+            // Check if medication is due for intake and send SMS notification if necessary
+            LocalTime heureprise = LocalTime.parse(m.getHeurePrise());
+            LocalTime now = LocalTime.now();
+            if (heureprise.equals(now)) {
+                String message = "Temps pour prendre vos medicaments";
+                SmsService smsService = new SmsService();
+                try {
+                    smsService.sendSms("+21654260859", message);
+                } catch (Exception ex) {
+                    System.out.println("Failed to send SMS: " + ex.getMessage());
+                }
+            }
+            return true;
         } else {
             return false;
         }
@@ -90,7 +125,7 @@ public class MedicamentsService {
         System.out.println(ex.getMessage());
         return false;
     }
-}
+}*/
 
 
 

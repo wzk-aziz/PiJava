@@ -53,8 +53,7 @@ private Medicaments selectedMedicament;
     private TextField dosagemed;
     @FXML
     private TableView<Medicaments> tableMedicaments;
-    @FXML
-    private TableColumn<Medicaments,Integer> colId;
+   
     @FXML
     private TableColumn<Medicaments,String> colNom;
     @FXML
@@ -113,7 +112,7 @@ for (int i = 0; i < 24; i++) {
 }
 heureChoiceBox.setItems(hours);
 // Initialize the table view columns
-    colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+   
     colrappelid.setCellValueFactory(new PropertyValueFactory<>("rappel_id"));
     colNom.setCellValueFactory(new PropertyValueFactory<>("nommed"));
     colDosage.setCellValueFactory(new PropertyValueFactory<>("dosage"));

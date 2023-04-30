@@ -44,8 +44,7 @@ public class RappelController implements Initializable {
     private Button btnajouterrappel;
     @FXML
     private Button btnmed;
-    @FXML
-    private TableColumn<Rappel, Integer> colId;
+   
     @FXML
     private TableColumn<Rappel, String> colNom;
     @FXML
@@ -57,7 +56,7 @@ public class RappelController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+    
        colNom.setCellValueFactory(new PropertyValueFactory<>("nomrappel"));
         colMessage.setCellValueFactory(new PropertyValueFactory<>("message"));
         
