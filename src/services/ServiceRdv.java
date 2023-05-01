@@ -16,6 +16,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import java.util.List;
+import java.util.Calendar ;
+
 /**
  *
  * @author neder
@@ -171,6 +174,39 @@ public class ServiceRdv implements IService<RDV> {
         }
         return obListR;
     }
+     @Override
+    public List<RDV> affichageRdvTrieerbynom() {
+          String req= "SELECT * FROM rdv order by titre ASC";;
+        List<RDV>listR = new ArrayList<>();
+        
+        
+        try{
+            Statement statement = conn.createStatement();
+            ResultSet rs = statement.executeQuery(req);
+            
+            while(rs.next()) {
+                int id= rs.getInt("id");
+                Date date_rdv = rs.getDate("date_rdv");
+                Time starttime = rs.getTime("starttime");
+                Time endtime = rs.getTime("endtime");
+                String titre = rs.getString("titre");
+               String etat = rs.getString("etat");
+               int idPatient= rs.getInt("id_patient_id");
+                
+                RDV p = new RDV(id,date_rdv,starttime,endtime,titre,etat,idPatient);
+              
+               obListR.add(p);
+
+              
+            }   
+            
+            
+            
+        }catch(Exception ex) {
+            System.out.println("exception ="+ex.getMessage() );
+        }
+        return obListR;
+    }
 
     @Override
     public void acceptRejectRdv(RDV R, String acceptReject) {
@@ -246,6 +282,38 @@ public class ServiceRdv implements IService<RDV> {
     }
     return rdv;
     }
+
+    @Override
+    public boolean isAvailable(Date dateRdv, Time starttime , Time endtime) {
+       // récupérer la liste de tous les rendez-vous existants
+    List<RDV> rdvs = affichageRdv();
+
+    // Vérifier si la date du rendez-vous est un samedi ou dimanche
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(dateRdv);
+    int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+    if (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {
+        return false;
+    }
+
+    // vérifier si la date et l'heure du rendez-vous en paramètre sont disponibles
+    for (RDV rdv : rdvs) {
+        if (dateRdv.equals(rdv.getDate_rdv())) {
+            // la date du rendez-vous en paramètre correspond à une date de rendez-vous existant
+            return false;
+        } else if (dateRdv.before(rdv.getEndtime()) && dateRdv.after(rdv.getStarttime())) {
+            // la date du rendez-vous en paramètre est comprise entre la date de début et la date de fin d'un rendez-vous existant
+            return false;
+        }
+    }
+
+    // si la date et l'heure du rendez-vous en paramètre ne correspondent à aucun rendez-vous existant, alors elles sont disponibles
+    return true;
+}
+
+   
+
+   
 
     
     }

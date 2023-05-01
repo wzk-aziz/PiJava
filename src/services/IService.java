@@ -6,8 +6,11 @@
 package services;
 
 import entites.RDV;
+import java.sql.Time;
 
 import java.util.List;
+import java.util.Date;
+
 
 /**
  *
@@ -23,5 +26,9 @@ public interface IService <T> {
    public void   acceptRejectRdv(RDV R,String acceptReject);
    public RDV getRdvbyid(int idrdv);
    public RDV getUserbyNom(String titre); 
+     public List<RDV>affichageRdvTrieerbynom ();
+        public boolean isAvailable(Date dateRdv, Time starttime , Time endtime);
+  
+    
      
 }

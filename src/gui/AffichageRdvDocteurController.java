@@ -84,6 +84,8 @@ public class AffichageRdvDocteurController implements Initializable {
     private Button PDF;
     @FXML
     private TableColumn<String, Integer> ColIDPatient;
+    @FXML
+    private Button trienom;
     /**
      * Initializes the controller class.
      */
@@ -306,7 +308,7 @@ public class AffichageRdvDocteurController implements Initializable {
                 addButtonDeleteToTable();
 
             }
-            filteredList.setPredicate(reclamation -> {
+            filteredList.setPredicate(rdv -> {
                 if (newValue == null || newValue.isEmpty()) {
                     btn = new Button("Modifier");
                     btnSupprimer = new Button("Supprimer");
@@ -314,13 +316,13 @@ public class AffichageRdvDocteurController implements Initializable {
                     return true;
                 }
                 String lowerCaseFilter = newValue.toLowerCase();
-                if (String.valueOf(reclamation.getTitre()).toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                if (String.valueOf(rdv.getTitre()).toLowerCase().indexOf(lowerCaseFilter) != -1) {
 
                     return true;
-                } else if (String.valueOf(reclamation.getEtat()).toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                } else if (String.valueOf(rdv.getEtat()).toLowerCase().indexOf(lowerCaseFilter) != -1) {
 
                     return true;
-                }else if (String.valueOf(reclamation.getDate_rdv()).toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                }else if (String.valueOf(rdv.getDate_rdv()).toLowerCase().indexOf(lowerCaseFilter) != -1) {
 
                     return true;
                 } 
@@ -379,13 +381,16 @@ public class AffichageRdvDocteurController implements Initializable {
                                 System.out.println(u);
                                 rdv = new RDV(A.getId(), A.getDate_rdv(), A.getStarttime(), A.getEndtime(), A.getTitre(), A.getEtat());
                                 a.acceptRejectRdv(A, "Approuvé");
-                                try {
-                                    SendMail sendEmail = new SendMail("pidev.chronicaid@gmail.com", "qajfcqlxtcwxinnx", u.getEmail(), "votre rendez vous a ete Accepter", "cher(e)  " + u.getPrenom() + "  Bonne nouvelle , votre rendez vous a ete accepter par le medecin !");
+                               try {
+                                   String template = "<div style='background-color: #ecf0f1; padding:20px;'><h2 style='color:#228032;'>cher(e) " + u.getPrenom() + ",</h2><p style='color:#000000;'>Votre rendez vous " + A.getDate_rdv() + " a ete accepter. veuillez etre present " + A.getStarttime() + " pour votre rendez vous.</p><p style='color:#000000;'>cordialement,<br>l'equipe medicale</p></div>";
+String subject = "Rendez vous accepter";
+String fromEmail = "pidev.chronicaid@gmail.com";
+String password = "qajfcqlxtcwxinnx";
+SendMail sendEmail = new SendMail(fromEmail, password, u.getEmail(), subject, template);
 
                                 } catch (Exception ex) {
                                     System.out.println(ex.getMessage());
                                 }
-
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -429,7 +434,11 @@ public class AffichageRdvDocteurController implements Initializable {
                                 rdv = new RDV(A.getId(), A.getDate_rdv(), A.getStarttime(), A.getEndtime(), A.getTitre(), A.getEtat());
                                 a.acceptRejectRdv(A, "Rejeter");
                                 try {
-                                    SendMail sendEmail = new SendMail("pidev.chronicaid@gmail.com", "qajfcqlxtcwxinnx", u.getEmail(), "votre rendez vous a ete rejeter", "cher(e) " + u.getPrenom() + "   Nous sommes desolee , mais votre rendez vous a ete rejeter per le Medecin  !");
+                                   String template = "<div style='background-color: #ecf0f1; padding:20px;'><h2 style='color:#228032;'>cher(e) " + u.getPrenom() + ",</h2><p style='color:#000000;'>Votre rendez vous " + A.getDate_rdv() + " a ete refusee.</p><p style='color:#000000;'>cordialement,<br>l'equipe medicale</p></div>";
+String subject = "Rendez vous Refuser";
+String fromEmail = "pidev.chronicaid@gmail.com";
+String password = "qajfcqlxtcwxinnx";
+SendMail sendEmail = new SendMail(fromEmail, password, u.getEmail(), subject, template);
 
                                 } catch (Exception ex) {
                                     System.out.println(ex.getMessage());
@@ -456,6 +465,27 @@ public class AffichageRdvDocteurController implements Initializable {
         };
 
         colRejectBtn.setCellFactory(cellFactory);
+    }
+
+    @FXML
+    private void trieNom(ActionEvent event) {
+         a = new ServiceRdv();
+        obList =  a.affichageRdvTrieer();
+        ColID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        ColTitre.setCellValueFactory(new PropertyValueFactory<>("titre"));
+       ColEtat.setCellValueFactory(new PropertyValueFactory<>("etat"));
+        ColDate.setCellValueFactory(new PropertyValueFactory<>("date_rdv"));
+         ColStart.setCellValueFactory(new PropertyValueFactory<>("starttime"));
+           ColEnd.setCellValueFactory(new PropertyValueFactory<>("endtime"));
+           ColIDPatient.setCellValueFactory(new PropertyValueFactory<>("id_patient_id"));
+                
+
+//        addButtonModifToTable();
+        addButtonDeleteToTable();
+   
+        tableView.setItems(obList);
+
+//        addButtonModifToTable();
     }
     }    
     

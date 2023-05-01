@@ -138,9 +138,11 @@ comboMedecin.setItems(medecinList);
         showAlert("État obligatoire", "L'état doit être non vide");
     } else if (dateRdv == null || dateRdv.isBefore(LocalDate.now())) {
         showAlert("Date invalide", "Veuillez saisir une date valide ");
-    }  else if (heureDebut == null || heureDebut.isBefore(LocalTime.of(9, 0)) || heureDebut.isAfter(LocalTime.of(16, 0))  ) {
+    }  else if (heureDebut == null || heureDebut.isBefore(LocalTime.of(9, 0)) || heureDebut.isAfter(LocalTime.of(16, 0))|| (heureDebut.getMinute() != 0 && heureDebut.getMinute() != 30)) {
         showAlert("Heures invalides", "heure de debut entre 9h du matin et 16:30 du soir");
-     
+    }  else if (heureDebut == null || heureDebut.isBefore(LocalTime.of(9, 0)) || heureDebut.isAfter(LocalTime.of(16, 0))|| (heureDebut.getMinute() != 0 && heureDebut.getMinute() != 30)) {
+        showAlert("Heures invalides", "la consultation demmare a heure pile ou a 30 minutes");
+         
     } else if (heureFin == null || heureFin.isBefore(LocalTime.of(9, 0)) || heureFin.isAfter(LocalTime.of(17, 0))  ) {
         showAlert("Heures invalides", "heure de fin entre 9:30h du matin et 17 du soir");
      
@@ -156,6 +158,12 @@ comboMedecin.setItems(medecinList);
         Date date = Date.from(dateRdv.atStartOfDay(defaultZoneId).toInstant());
         Time timeDebut = Time.valueOf(heureDebut);
         Time timeFin = Time.valueOf(heureFin);
+          // Check if the selected date and time slot is available
+        boolean isAvailable = sr.isAvailable(date, timeDebut, timeFin);
+
+        if (!isAvailable) {
+            showAlert("heure et date non disponible", "Le créneau sélectionné n'est pas disponible");
+             } else {
         ServiceUser su = new ServiceUser();
             User user = su.getUserbyNom(comboPatient.getSelectionModel().getSelectedItem().toString());
             User u = su.getUserbyNom(comboMedecin.getSelectionModel().getSelectedItem().toString());
@@ -165,13 +173,23 @@ comboMedecin.setItems(medecinList);
         // Récupération de l'utilisateur concerné par le rendez-vous
 User medecin = su.getUserById(u.getId());
 
-// Envoi d'un e-mail pour confirmer la prise de rendez-vous
-String sujet = "noveau rendez vous";
-String corps = "Bonjour " + medecin.getPrenom() + ",\n\n";
-corps += "Nous vous informions qu'un noveau rendez-vous du " + dateRdv + " de " + heureDebut + " à " + heureFin + " a bien ete enregistrer veuillez repondre par une reponse a ce rendez vous .\n\n";
-corps += "Cordialement,\n";
-corps += "L'équipe médicale";
+String sujet = "Nouveau rendez-vous";
+String corps = "<html><body style='background-color:#ecf0f1;'>";
+corps += "<h1 style='color:#228032;'>Nouveau rendez-vous</h1>";
+corps += "<p style='color:#1abc9c;'>Bonjour " + medecin.getPrenom() + ",</p>";
+corps += "<p style='color:#3498db;'>Nous vous informons qu'un nouveau rendez-vous a été ajouté :</p>";
+corps += "<ul>";
+corps += "<li><strong style='color:#3a8eba;'>Date :</strong> <span style='color:#34495e;'>" + dateRdv + "</span></li>";
+corps += "<li><strong style='color:#3a8eba;'>Heure de début :</strong> <span style='color:#34495e;'>" + heureDebut + "</span></li>";
+corps += "<li><strong style='color:#3a8eba;'>Heure de fin :</strong> <span style='color:#34495e;'>" + heureFin + "</span></li>";
+corps += "<li><strong style='color:#3a8eba;'>Nom du patient :</strong> <span style='color:#34495e;'>" + titre + "</span></li>";
+corps += "<li><strong style='color:#3a8eba;'>Etat :</strong> <span style='color:#34495e;'>" + etat + "</span></li>";
+corps += "</ul>";
+corps += "<p style='color:#3498db;'>Cordialement,<br>L'équipe médicale</p>";
+corps += "</body></html>";
+
 SendMail sendEmail = new SendMail("pidev.chronicaid@gmail.com", "qajfcqlxtcwxinnx", medecin.getEmail(), sujet, corps);
+        }
     }
     
 }

@@ -31,5 +31,6 @@
       <Button fx:id="tri" layoutX="442.0" layoutY="17.0" mnemonicParsing="false" onAction="#trieDate" style="-fx-background-color: #3a8eba;" text="Date Desc" textFill="WHITE" />
       <TextField fx:id="recherche" layoutX="26.0" layoutY="59.0" onKeyPressed="#RechercheHandle" prefHeight="25.0" prefWidth="184.0" promptText="Rechercher" />
       <Button fx:id="PDF" layoutX="442.0" layoutY="47.0" mnemonicParsing="false" onAction="#pdfAction" prefHeight="25.0" prefWidth="70.0" style="-fx-background-color: #3a8eba;" text="PDF" textFill="WHITE" />
+      <Button fx:id="trienom" layoutX="529.0" layoutY="47.0" mnemonicParsing="false" onAction="#trieNom" style="-fx-background-color: #3a8eba;" text="Nom ASC" textFill="#fffefe" />
    </children>
 </AnchorPane>
